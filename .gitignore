@@ -49,3 +49,5 @@ reports/
 
 # logs
 *.log
+.RData
+.Rhistory
