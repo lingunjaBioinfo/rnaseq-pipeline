@@ -1,0 +1,25 @@
+genome:
+  species: "human"
+  assembly: "GRCh38"
+  fasta: "genome/GRCh38.fa"
+  gtf:   "genome/GRCh38.gtf"
+  index: "genome/hisat2_index/genome"
+
+samples:
+  sampla_1: {srr: "SRR6357070", condition: "tumor"}
+  sample_2: {srr: "SRR6357070", condition: "normal"}
+
+analysis:
+  reference_condition: "normal"
+  treatment_condition: "tumor"
+  padj_cutoff: 0.05
+  lfc_cutoff: 1.0
+  threads: 4
+
+fastp:
+  min_length: 36
+  quality: 20
+
+featurecounts:
+  strand: 0
+  paired: true

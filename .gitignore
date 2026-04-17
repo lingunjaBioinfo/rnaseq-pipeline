@@ -1,0 +1,51 @@
+# Ignore raw data
+data/raw/
+*.sra
+*.fastq
+*.fastq.gz
+
+# Ignore results
+results/
+*.html
+*.zip
+*.json
+
+# Logs
+logs/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+
+# Env
+env/
+.conda/
+
+# Snakemake working directory
+.snakemake/
+
+# Reference genomes
+genome/
+*.fa
+*.fasta
+*.fai
+*.gtf
+*.gff
+
+# raw data
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+
+# snakemake internal state
+.snakemake/
+
+# outputs
+*.html
+results/
+reports/
+
+# logs
+*.log

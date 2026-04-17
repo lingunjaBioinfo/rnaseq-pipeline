@@ -1,0 +1,89 @@
+---
+title: "RNA-seq Differential Expression Report"
+subtitle: "Breast Cancer Tumor vs Normal — GSE183947"
+author: "Lingunja | CBU Bioinformatics"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_float: true
+    code_folding: hide
+params:
+  ref_condition:   "normal"
+  treat_condition: "tumor"
+  padj_cutoff:     0.05
+  lfc_cutoff:      1.0
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+source("scripts/deseq2.R")
+
+counts  <- load_counts("results/counts/counts.txt")
+coldata <- build_coldata(counts, params$ref_condition, params$treat_condition)
+dds     <- run_deseq2(counts, coldata)
+results <- get_results(dds, params$ref_condition, params$treat_condition,
+                       params$padj_cutoff, params$lfc_cutoff)
+res_df  <- results$res_df
+summary <- summarise_de(res_df, params$padj_cutoff, params$lfc_cutoff)
+```
+
+## 1. Summary
+
+| Parameter | Value |
+|---|---|
+| Comparison | `r params$treat_condition` vs `r params$ref_condition` |
+| Samples | `r ncol(counts)` |
+| Genes tested | `r format(summary$total_tested, big.mark=",")` |
+| Significant DEGs | **`r summary$total_sig`** |
+| Upregulated | `r summary$up` |
+| Downregulated | `r summary$down` |
+
+## 2. PCA
+
+```{r pca}
+plot_pca(dds)
+```
+
+## 3. Volcano Plot
+
+```{r volcano, fig.height=7}
+plot_volcano(res_df, params$padj_cutoff, params$lfc_cutoff)
+```
+
+## 4. Heatmap
+
+```{r heatmap, fig.height=8}
+plot_heatmap(dds, res_df)
+```
+
+## 5. Top Upregulated Genes
+
+```{r top_up}
+knitr::kable(summary$top10_up, digits=c(0,3,5))
+```
+
+## 6. Top Downregulated Genes
+
+```{r top_down}
+knitr::kable(summary$top10_down, digits=c(0,3,5))
+```
+
+## 7. Full Results
+
+```{r table}
+DT::datatable(
+  res_df %>% filter(!is.na(padj)) %>%
+    select(gene, log2FoldChange, padj, direction),
+  filter="top", rownames=FALSE,
+  options=list(pageLength=15, scrollX=TRUE)
+)
+```
+
+## 8. Methods
+
+Reads were quality-assessed with **FastQC**, trimmed with **fastp**, aligned to **GRCh38** using **HISAT2**, and quantified with **featureCounts**. Differential expression was performed with **DESeq2** (LFC shrinkage via ashr). Significance threshold: FDR < `r params$padj_cutoff`, |log₂FC| > `r params$lfc_cutoff`.
+
+---
+*Lingunja | CBU Bioinformatics*
