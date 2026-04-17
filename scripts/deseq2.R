@@ -9,10 +9,14 @@ suppressPackageStartupMessages({
 })
 
 load_counts <- function(counts_file) {
-  raw <- read.table(counts_file, header=TRUE, sep="\t", skip=1, row.names=1)
+  raw <- read.table(counts_file, header=TRUE, sep="\t",
+                    skip=1, row.names=1, check.names=FALSE)
   counts <- raw[, 6:ncol(raw)]
-  colnames(counts) <- gsub("results.bam.(.*)\\.bam", "\\1", colnames(counts))
-  counts <- counts[rowSums(counts) > 10, ]
+  colnames(counts) <- gsub("results/bam/", "", colnames(counts))
+  colnames(counts) <- gsub("\\.bam", "", colnames(counts))
+  counts <- as.matrix(counts)
+  mode(counts) <- "integer"
+  counts <- counts[rowSums(counts) > 0, ]
   return(counts)
 }
 

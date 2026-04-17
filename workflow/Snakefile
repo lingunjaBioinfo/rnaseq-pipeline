@@ -8,7 +8,8 @@ rule all:
         expand("results/qc/{sample}_R1_fastqc.html", sample=SAMPLES),
         "results/multiqc/multiqc_report.html",
         expand("results/bam/{sample}.bam.bai", sample=SAMPLES),
-        "results/counts/counts.txt"
+        "results/counts/counts.txt",
+        "results/report/report.html"
 
 rule download_fastq:
     output:
@@ -94,3 +95,15 @@ rule featurecounts:
         "-a {input.gtf} "
         "-o {output} "
         "{input.bams}"
+
+rule deseq2_report:
+    input:
+        counts = "results/counts/counts.txt"
+    output:
+        "results/report/report.html"
+    shell:
+        "Rscript -e \""
+        "rmarkdown::render("
+        "'scripts/report.Rmd',"
+        "output_file='../results/report/report.html',"
+        "knit_root_dir=getwd())\""
