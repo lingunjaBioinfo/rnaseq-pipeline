@@ -51,3 +51,4 @@ reports/
 *.log
 .RData
 .Rhistory
+runinfo.csv
