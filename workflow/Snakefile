@@ -1,5 +1,4 @@
 configfile: "config/config.yaml"
-
 SAMPLES = list(config["samples"].keys())
 THREADS = config["analysis"]["threads"]
 
@@ -15,9 +14,19 @@ rule download_fastq:
     output:
         r1 = "data/raw/{sample}_R1.fastq.gz",
         r2 = "data/raw/{sample}_R2.fastq.gz"
+    params:
+        srr = lambda wc: config["samples"][wc.sample]["srr"]
+    threads: 2
     shell:
-        "cp data/raw/SRR6357070_1.fastq.gz {output.r1} && "
-        "cp data/raw/SRR6357070_2.fastq.gz {output.r2}"
+        """
+        prefetch {params.srr} -O data/raw/
+        fastq-dump data/raw/{params.srr}/{params.srr}.sra \
+            --outdir data/raw/ --split-files --gzip \
+            -X 5000000
+        rm -rf data/raw/{params.srr}/
+        mv data/raw/{params.srr}_1.fastq.gz {output.r1}
+        mv data/raw/{params.srr}_2.fastq.gz {output.r2}
+        """
 
 rule fastqc:
     input:

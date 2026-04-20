@@ -6,8 +6,12 @@ genome:
   index: "genome/hisat2_index/genome"
 
 samples:
-  sampla_1: {srr: "SRR6357070", condition: "tumor"}
-  sample_2: {srr: "SRR6357070", condition: "normal"}
+  tumor_1:  {srr: "SRR6671104", condition: "tumor"}
+  tumor_2:  {srr: "SRR6671105", condition: "tumor"}
+  tumor_3:  {srr: "SRR6671106", condition: "tumor"}
+  normal_1: {srr: "SRR6671114", condition: "normal"}
+  normal_2: {srr: "SRR6671115", condition: "normal"}
+  normal_3: {srr: "SRR6671116", condition: "normal"}
 
 analysis:
   reference_condition: "normal"
