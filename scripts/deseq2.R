@@ -53,17 +53,17 @@ get_results <- function(dds, ref, treat, padj_cut, lfc_cut) {
 }
 
 plot_pca <- function(dds) {
-  vsd <- vst(dds, blind=TRUE)
-  pcaData <- plotPCA(vsd, intgroup="condition", returnData=TRUE)
+  vsd <- varianceStabilizingTransformation(dds, blind = TRUE)
+  pcaData <- plotPCA(vsd, intgroup = "condition", returnData = TRUE)
   percentVar <- round(100 * attr(pcaData, "percentVar"))
-  ggplot(pcaData, aes(PC1, PC2, color=condition, label=name)) +
-    geom_point(size=4) +
-    ggrepel::geom_text_repel(size=3) +
+  ggplot(pcaData, aes(PC1, PC2, color = condition, label = name)) +
+    geom_point(size = 4) +
+    ggrepel::geom_text_repel(size = 3) +
     xlab(paste0("PC1: ", percentVar[1], "% variance")) +
     ylab(paste0("PC2: ", percentVar[2], "% variance")) +
-    scale_color_manual(values=c("normal"="#4f9eff","tumor"="#ff6b6b")) +
-    theme_minimal(base_size=13) +
-    labs(title="PCA — Sample Clustering")
+    scale_color_manual(values = c("normal" = "#4f9eff", "tumor" = "#ff6b6b")) +
+    theme_minimal(base_size = 13) +
+    labs(title = "PCA — Sample Clustering")
 }
 
 plot_volcano <- function(res_df, padj_cut, lfc_cut) {
@@ -76,7 +76,7 @@ plot_volcano <- function(res_df, padj_cut, lfc_cut) {
 }
 
 plot_heatmap <- function(dds, res_df, n=50) {
-  vsd <- vst(dds, blind=TRUE)
+  vsd <- varianceStabilizingTransformation(dds, blind = TRUE)
   top_genes <- res_df %>% filter(significant) %>%
     slice_min(padj, n=n) %>% pull(gene)
   mat <- assay(vsd)[top_genes, ]
