@@ -32,3 +32,21 @@ Available for hire — RNA-seq analysis, single-cell RNA-seq, and multi-omics in
 
 ---
 Lingunja | BSc Bioinformatics · Copperbelt University, Zambia
+
+## Results
+
+### Volcano Plot — Tumor vs Normal (PRJNA432903)
+
+
+![Volcano Plot](docs/volcano_plot.png)
+
+
+> 2,298 significant DEGs (padj < 0.05). Top hit at −log₁₀P ≈ 80. PC1 explains 86% variance.
+
+### Heatmap — Top 50 DEGs
+
+
+![Heatmap](docs/heatmap_top50.png)
+
+
+> Perfect hierarchical clustering: tumor vs normal completely separated.
