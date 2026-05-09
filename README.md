@@ -50,3 +50,26 @@ Lingunja | BSc Bioinformatics · Copperbelt University, Zambia
 
 
 > Perfect hierarchical clustering: tumor vs normal completely separated.
+
+## Pathway Analysis
+
+### GO Biological Process Enrichment
+
+
+![GO Enrichment](analysis/go_dotplot.png)
+
+
+> 711 significantly enriched biological processes.
+> Top processes: leukocyte mediated immunity,
+> lymphocyte activation, immune response regulation.
+
+### Reactome Pathway Enrichment
+
+
+![Reactome Pathways](analysis/reactome_dotplot.png)
+
+
+> 39 clinically relevant pathways enriched.
+> Key findings: PD-1 signaling, Interferon signaling,
+> Interleukin signaling — directly relevant to
+> breast cancer immunotherapy targets.
